@@ -1,8 +1,6 @@
 import { z } from 'zod';
 
-/**
- * API request validation schemas
- */
+/**API request validation schemas**/
 
 export const CreateIntakeSchema = z.object({
   title: z.string().optional()
@@ -16,9 +14,7 @@ export const UpdateStateSchema = z.object({
   updates: z.record(z.unknown())
 });
 
-/**
- * LLM request schema
- */
+/**LLM request schema**/
 export const LLMRequestSchema = z.object({
   currentState: z.object({}).passthrough(),
   conversation: z.array(z.object({
@@ -28,9 +24,7 @@ export const LLMRequestSchema = z.object({
   latestUserMessage: z.string()
 });
 
-/**
- * LLM response schema
- */
+/**LLM response schema*/
 export const LLMResponseSchema = z.object({
   assistantMessage: z.string(),
   stateUpdates: z.record(z.unknown()).optional(),

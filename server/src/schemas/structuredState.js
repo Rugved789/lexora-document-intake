@@ -1,32 +1,24 @@
 import { z } from 'zod';
 
-/**
- * Zod schema for a single child
- */
+/**Zod schema for a single child**/
 export const ChildSchema = z.object({
   name: z.string()
 });
 
-/**
- * Zod schema for executor information
- */
+/**Zod schema for executor information*/
 export const ExecutorSchema = z.object({
   name: z.string().nullable(),
   relationship: z.string().nullable()
 });
 
-/**
- * Zod schema for a specific gift
- */
+/**Zod schema for a specific gift*/
 export const SpecificGiftSchema = z.object({
   item: z.string(),
   recipient: z.string()
 });
 
-/**
- * Main structured state schema
- * This is the source of truth for all collected information
- */
+/**Main structured state schema
+ * This is the source of truth for all collected information**/
 export const StructuredStateSchema = z.object({
   full_name: z.string().nullable(),
   home_address: z.string().nullable(),
@@ -39,9 +31,7 @@ export const StructuredStateSchema = z.object({
   additional_wishes: z.string().nullable()
 });
 
-/**
- * Initial empty state
- */
+
 export const initialStructuredState = {
   full_name: null,
   home_address: null,

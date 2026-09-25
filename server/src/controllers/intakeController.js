@@ -5,13 +5,11 @@ import { generatePersonalWishesPDF } from '../services/document/pdfGenerator.js'
 import { CreateIntakeSchema, SendMessageSchema, UpdateStateSchema } from '../schemas/api.js';
 import { AppError } from '../middleware/errorHandler.js';
 
-/**
- * Create a new intake session
- */
+/** Create a new intake session **/
 export async function createIntake(req, res, next) {
   try {
     const { title } = CreateIntakeSchema.parse(req.body);
-    
+
     const session = await intakeService.createIntakeSession(
       req.userId,
       title || 'New Intake'
@@ -36,9 +34,7 @@ export async function createIntake(req, res, next) {
   }
 }
 
-/**
- * Get all intake sessions for the current user
- */
+/**Get all intake sessions for the current user**/
 export async function getIntakes(req, res, next) {
   try {
     const sessions = await intakeService.getUserIntakeSessions(req.userId);
@@ -60,13 +56,11 @@ export async function getIntakes(req, res, next) {
   }
 }
 
-/**
- * Get a specific intake session
- */
+/** Get a specific intake session**/
 export async function getIntake(req, res, next) {
   try {
     const { id } = req.params;
-    
+
     const session = await intakeService.getIntakeSession(id, req.userId);
 
     if (!session) {
@@ -94,10 +88,9 @@ export async function getIntake(req, res, next) {
   }
 }
 
-/**
- * Send a message in an intake session
- * This processes the message through the LLM and updates the state
- */
+/** Send a message in an intake session
+  This processes the message through the LLM and updates the state
+ **/
 export async function sendMessage(req, res, next) {
   try {
     const { id } = req.params;
@@ -195,9 +188,7 @@ export async function updateState(req, res, next) {
   }
 }
 
-/**
- * Get the document for an intake session (PDF binary by default, or JSON if requested)
- */
+/**Get the document for an intake session (PDF binary by default, or JSON if requested)**/
 export async function getDocument(req, res, next) {
   try {
     const { id } = req.params;
@@ -249,9 +240,7 @@ export async function getDocument(req, res, next) {
   }
 }
 
-/**
- * Delete an intake session
- */
+/**Delete an intake session*/
 export async function deleteIntake(req, res, next) {
   try {
     const { id } = req.params;
@@ -272,9 +261,7 @@ export async function deleteIntake(req, res, next) {
 }
 
 
-/**
- * Get state history for an intake session
- */
+/**Get state history for an intake session*/
 export async function getStateHistory(req, res, next) {
   try {
     const { id } = req.params;

@@ -68,7 +68,7 @@ export class MockLLMProvider extends LLMProvider {
       /this is ([a-z\s]+?)(?:\.|,|$| and | i | my )/i,
       /call me ([a-z\s]+?)(?:\.|,|$| and | i | my )/i
     ];
-    
+
     for (const pattern of namePatterns) {
       const match = message.match(pattern);
       if (match) {
@@ -95,8 +95,8 @@ export class MockLLMProvider extends LLMProvider {
       } else if (message.includes('no') || message.includes('don\'t') || message.includes('not')) {
         updates.covers_worldwide_assets = false;
       }
-    } else if (currentState.covers_worldwide_assets === null && 
-               (message.includes('yes') || message.includes('no'))) {
+    } else if (currentState.covers_worldwide_assets === null &&
+      (message.includes('yes') || message.includes('no'))) {
       // Contextual yes/no if we just asked about worldwide assets
       const lastQuestion = this.getLastQuestion(message);
       if (lastQuestion && lastQuestion.includes('worldwide')) {
@@ -105,26 +105,26 @@ export class MockLLMProvider extends LLMProvider {
     }
 
     // Extract children information
-    if (message.includes('children') || message.includes('child') || 
-        message.includes('son') || message.includes('daughter') ||
-        message.includes('kids')) {
-      
-      if (message.includes('no children') || message.includes('don\'t have') || 
-          message.includes('do not have') || message.includes('don\'t have any')) {
+    if (message.includes('children') || message.includes('child') ||
+      message.includes('son') || message.includes('daughter') ||
+      message.includes('kids')) {
+
+      if (message.includes('no children') || message.includes('don\'t have') ||
+        message.includes('do not have') || message.includes('don\'t have any')) {
         updates.has_children = false;
         updates.children = [];
       } else if (message.includes('have children') || message.includes('have a') ||
-                 message.includes('my children') || message.includes('my son') ||
-                 message.includes('my daughter') || message.includes('two children') ||
-                 message.includes('have two') || /children are/i.test(message)) {
+        message.includes('my children') || message.includes('my son') ||
+        message.includes('my daughter') || message.includes('two children') ||
+        message.includes('have two') || /children are/i.test(message)) {
         updates.has_children = true;
-        
+
         // Extract children names from children clause in originalMessage
         const orig = originalMessage || message;
         const childrenIdx = orig.toLowerCase().indexOf('children');
         const searchScope = childrenIdx !== -1 ? orig.slice(childrenIdx) : orig;
         const cleanScope = searchScope.split(/(?:,?\s+and\s+my|,?\s+my\s+brother|,?\s+my\s+sister|,?\s+executor)/i)[0];
-        
+
         const names = this.extractNames(cleanScope, ['son', 'daughter', 'child', 'children', 'kids', 'have', 'two', 'are', 'my', 'and']);
         if (names.length > 0) {
           updates.children = names.map(name => ({ name }));
@@ -134,11 +134,11 @@ export class MockLLMProvider extends LLMProvider {
 
     // Handle yes/no for has_children question
     if (currentState.has_children === null && !updates.has_children) {
-      if (message.trim() === 'yes' || message.includes('yes i do') || 
-          message.includes('yes,') || message.startsWith('yes ')) {
+      if (message.trim() === 'yes' || message.includes('yes i do') ||
+        message.includes('yes,') || message.startsWith('yes ')) {
         updates.has_children = true;
-      } else if (message.trim() === 'no' || message.includes('no i don') || 
-                 message.includes('no,') || message.startsWith('no ')) {
+      } else if (message.trim() === 'no' || message.includes('no i don') ||
+        message.includes('no,') || message.startsWith('no ')) {
         updates.has_children = false;
         updates.children = [];
       }
@@ -156,7 +156,7 @@ export class MockLLMProvider extends LLMProvider {
       if (match) {
         const relationship = match[1];
         const executorName = this.capitalize(match[2].trim());
-        updates.executor = { 
+        updates.executor = {
           name: executorName,
           relationship: relationship.toLowerCase()
         };
@@ -166,10 +166,10 @@ export class MockLLMProvider extends LLMProvider {
 
     // Handle negative declarations for gifts & wishes
     const lowerMsg = message.toLowerCase();
-    const isNoGiftsAndWishes = lowerMsg.includes('no gifts and wishes') || 
-                               lowerMsg.includes('no gifts or wishes') ||
-                               lowerMsg.includes('no gift and no wish') ||
-                               lowerMsg.includes('no gifts, no wishes');
+    const isNoGiftsAndWishes = lowerMsg.includes('no gifts and wishes') ||
+      lowerMsg.includes('no gifts or wishes') ||
+      lowerMsg.includes('no gift and no wish') ||
+      lowerMsg.includes('no gifts, no wishes');
 
     if (isNoGiftsAndWishes) {
       updates.has_specific_gifts = false;
@@ -177,9 +177,9 @@ export class MockLLMProvider extends LLMProvider {
       updates.additional_wishes = "None";
     } else {
       if (
-        lowerMsg.includes('no gifts') || 
-        lowerMsg.includes('no specific gifts') || 
-        lowerMsg.includes('no gift') || 
+        lowerMsg.includes('no gifts') ||
+        lowerMsg.includes('no specific gifts') ||
+        lowerMsg.includes('no gift') ||
         lowerMsg.includes('don\'t have any gifts') ||
         lowerMsg.includes('do not have any gifts') ||
         (lowerMsg === 'none' && !currentState.specific_gifts?.length)
@@ -189,8 +189,8 @@ export class MockLLMProvider extends LLMProvider {
       }
 
       if (
-        lowerMsg.includes('no wishes') || 
-        lowerMsg.includes('no additional wishes') || 
+        lowerMsg.includes('no wishes') ||
+        lowerMsg.includes('no additional wishes') ||
         lowerMsg.includes('no wish') ||
         (lowerMsg === 'none' && currentState.additional_wishes === null)
       ) {
@@ -215,7 +215,7 @@ export class MockLLMProvider extends LLMProvider {
           item: match[1].trim(),
           recipient: this.capitalize(match[2].trim())
         };
-        
+
         if (!updates.specific_gifts) {
           updates.specific_gifts = currentState.specific_gifts || [];
         }
@@ -256,11 +256,11 @@ export class MockLLMProvider extends LLMProvider {
     }
 
     // Check if mentioning children when previously said no children
-    if (currentState.has_children === false && 
-        (updates.children?.length > 0 || updates.specific_gifts?.some(g => 
-          g.recipient.toLowerCase().includes('son') || 
-          g.recipient.toLowerCase().includes('daughter')
-        ))) {
+    if (currentState.has_children === false &&
+      (updates.children?.length > 0 || updates.specific_gifts?.some(g =>
+        g.recipient.toLowerCase().includes('son') ||
+        g.recipient.toLowerCase().includes('daughter')
+      ))) {
       return {
         assistantMessage: "Earlier you mentioned that you don't have children, but you've now mentioned a child. Could you clarify which information is correct?",
         stateUpdates: {},
@@ -299,10 +299,10 @@ export class MockLLMProvider extends LLMProvider {
 
     // Acknowledge what was provided
     let response = '';
-    
+
     if (updatedFields.length > 0) {
       const acknowledgments = [];
-      
+
       if (stateUpdates.full_name) {
         acknowledgments.push(`Thank you, ${stateUpdates.full_name}`);
       }
@@ -310,8 +310,8 @@ export class MockLLMProvider extends LLMProvider {
         acknowledgments.push(`I've noted your address in ${stateUpdates.home_address}`);
       }
       if (stateUpdates.has_children !== undefined) {
-        acknowledgments.push(stateUpdates.has_children ? 
-          "I've noted that you have children" : 
+        acknowledgments.push(stateUpdates.has_children ?
+          "I've noted that you have children" :
           "I've noted that you don't have children");
       }
       if (stateUpdates.children?.length > 0) {
@@ -324,7 +324,7 @@ export class MockLLMProvider extends LLMProvider {
       if (stateUpdates.specific_gifts?.length > 0) {
         acknowledgments.push("I've recorded your specific gift");
       }
-      
+
       if (acknowledgments.length > 0) {
         response = acknowledgments[0] + '. ';
       }
@@ -333,7 +333,7 @@ export class MockLLMProvider extends LLMProvider {
     // Ask for next missing field
     if (missingFields.length > 0) {
       const nextField = missingFields[0];
-      
+
       switch (nextField) {
         case 'full_name':
           response += 'What is your full name?';
@@ -376,12 +376,12 @@ export class MockLLMProvider extends LLMProvider {
 
     for (let i = 0; i < words.length; i++) {
       const word = words[i].replace(/[,\.!?]/g, '');
-      
+
       // Check if it's a capitalized word and not in exclude list
-      if (word.length > 0 && 
-          word[0] === word[0].toUpperCase() && 
-          !exclude.includes(word.toLowerCase()) &&
-          !['I', 'My', 'The', 'And', 'Or', 'A', 'An'].includes(word)) {
+      if (word.length > 0 &&
+        word[0] === word[0].toUpperCase() &&
+        !exclude.includes(word.toLowerCase()) &&
+        !['I', 'My', 'The', 'And', 'Or', 'A', 'An'].includes(word)) {
         names.push(word);
       }
     }
@@ -393,18 +393,18 @@ export class MockLLMProvider extends LLMProvider {
    * Extract relationship from text
    */
   extractRelationship(text, name) {
-    const relationships = ['brother', 'sister', 'son', 'daughter', 'mother', 'father', 
-                          'friend', 'partner', 'spouse', 'wife', 'husband', 'cousin',
-                          'uncle', 'aunt', 'nephew', 'niece'];
-    
+    const relationships = ['brother', 'sister', 'son', 'daughter', 'mother', 'father',
+      'friend', 'partner', 'spouse', 'wife', 'husband', 'cousin',
+      'uncle', 'aunt', 'nephew', 'niece'];
+
     const lowerText = text.toLowerCase();
-    
+
     for (const rel of relationships) {
       if (lowerText.includes(`my ${rel}`) || lowerText.includes(`${rel} ${name.toLowerCase()}`)) {
         return rel;
       }
     }
-    
+
     return null;
   }
 

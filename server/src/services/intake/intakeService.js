@@ -6,9 +6,7 @@ import { initialStructuredState, validateStructuredState, mergeStateUpdates } fr
  * Handles all database operations for intake sessions
  */
 
-/**
- * Helper to retry database queries against transient Neon cold-starts or connection drops
- */
+/*** Helper to retry database queries against transient Neon cold-starts or connection drops**/
 async function withDbRetry(fn, retries = 2, delay = 600) {
   for (let attempt = 1; attempt <= retries + 1; attempt++) {
     try {
@@ -34,9 +32,7 @@ async function withDbRetry(fn, retries = 2, delay = 600) {
   }
 }
 
-/**
- * Create a new intake session for a user
- */
+/**Create a new intake session for a user**/
 export async function createIntakeSession(clerkUserId, title = 'New Intake') {
   return withDbRetry(async () => {
     const session = await prisma.intakeSession.create({
@@ -62,9 +58,7 @@ export async function createIntakeSession(clerkUserId, title = 'New Intake') {
   });
 }
 
-/**
- * Get all intake sessions for a user
- */
+/**Get all intake sessions for a user**/
 export async function getUserIntakeSessions(clerkUserId) {
   return withDbRetry(async () => {
     const sessions = await prisma.intakeSession.findMany({
@@ -88,9 +82,7 @@ export async function getUserIntakeSessions(clerkUserId) {
   });
 }
 
-/**
- * Get a single intake session with all data
- */
+/**Get a single intake session with all data*/
 export async function getIntakeSession(id, clerkUserId) {
   const session = await prisma.intakeSession.findFirst({
     where: {
@@ -110,9 +102,7 @@ export async function getIntakeSession(id, clerkUserId) {
   return session;
 }
 
-/**
- * Get the current structured state for a session
- */
+/**Get the current structured state for a session*/
 export async function getCurrentState(intakeSessionId) {
   const state = await prisma.structuredState.findFirst({
     where: { intakeSessionId },
@@ -126,9 +116,7 @@ export async function getCurrentState(intakeSessionId) {
   return JSON.parse(state.stateJson);
 }
 
-/**
- * Get current version number for an intake session
- */
+/**Get current version number for an intake session**/
 export async function getCurrentVersion(intakeSessionId) {
   const latest = await prisma.structuredState.findFirst({
     where: { intakeSessionId },
@@ -139,9 +127,7 @@ export async function getCurrentVersion(intakeSessionId) {
   return latest?.version || 1;
 }
 
-/**
- * Update the structured state for a session
- */
+/**Update the structured state for a session**/
 export async function updateStructuredState(intakeSessionId, updates) {
   const latest = await prisma.structuredState.findFirst({
     where: { intakeSessionId },
@@ -149,7 +135,7 @@ export async function updateStructuredState(intakeSessionId, updates) {
   });
 
   const currentState = latest ? JSON.parse(latest.stateJson) : initialStructuredState;
-  
+
   // Merge updates with current state
   const newState = mergeStateUpdates(currentState, updates);
 
@@ -170,9 +156,7 @@ export async function updateStructuredState(intakeSessionId, updates) {
   };
 }
 
-/**
- * Add a message to the conversation
- */
+/**Add a message to the conversation*/
 export async function addConversationMessage(intakeSessionId, role, content) {
   const message = await prisma.conversationMessage.create({
     data: {
@@ -191,9 +175,7 @@ export async function addConversationMessage(intakeSessionId, role, content) {
   return message;
 }
 
-/**
- * Get conversation history for a session
- */
+/**Get conversation history for a session*/
 export async function getConversationHistory(intakeSessionId) {
   const messages = await prisma.conversationMessage.findMany({
     where: { intakeSessionId },
@@ -203,9 +185,7 @@ export async function getConversationHistory(intakeSessionId) {
   return messages;
 }
 
-/**
- * Delete an intake session
- */
+/**Delete an intake session*/
 export async function deleteIntakeSession(id, clerkUserId) {
   const result = await prisma.intakeSession.deleteMany({
     where: {
@@ -217,9 +197,7 @@ export async function deleteIntakeSession(id, clerkUserId) {
   return result.count > 0;
 }
 
-/**
- * Verify session ownership
- */
+/**Verify session ownership*/
 export async function verifySessionOwnership(intakeSessionId, clerkUserId) {
   const session = await prisma.intakeSession.findFirst({
     where: {
@@ -232,9 +210,7 @@ export async function verifySessionOwnership(intakeSessionId, clerkUserId) {
 }
 
 
-/**
- * Get state history for an intake session
- */
+/**Get state history for an intake session*/
 export async function getStateHistory(intakeSessionId) {
   const history = await prisma.structuredState.findMany({
     where: { intakeSessionId },

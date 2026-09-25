@@ -2,7 +2,6 @@ import { ZodError } from 'zod';
 
 /**
  * Global error handling middleware
- * 
  * Catches all errors and returns consistent error responses.
  * Does not expose stack traces or sensitive information.
  */
@@ -42,9 +41,7 @@ export function errorHandler(err, req, res, next) {
   });
 }
 
-/**
- * Custom error class for application errors
- */
+/**Custom error class for application errors*/
 export class AppError extends Error {
   constructor(message, statusCode = 500, code = 'ERROR') {
     super(message);

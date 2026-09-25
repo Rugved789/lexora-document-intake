@@ -3,7 +3,6 @@ import { config } from '../config/index.js';
 
 /**
  * Authentication Middleware using Clerk
- * 
  * Verifies the Clerk session token and attaches user info to the request.
  * All protected routes should use this middleware.
  */
@@ -11,7 +10,7 @@ export async function requireAuth(req, res, next) {
   try {
     // Get the session token from Authorization header
     const authHeader = req.headers.authorization;
-    
+
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({
         success: false,
@@ -41,11 +40,11 @@ export async function requireAuth(req, res, next) {
 
     // Attach user ID to request
     req.userId = sessionClaims.sub;
-    
+
     next();
   } catch (error) {
     console.error('Authentication error:', error);
-    
+
     return res.status(401).json({
       success: false,
       error: {
