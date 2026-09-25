@@ -51,52 +51,52 @@ function ConversationToStructure() {
   }, [activeStep]);
 
   return (
-    <section id="how-it-works" className="py-24 sm:py-32 bg-gradient-to-b from-background via-background-subtle to-background scroll-mt-16 border-t border-primary/[0.06] relative overflow-hidden">
+    <section id="how-it-works" className="py-16 sm:py-24 lg:py-32 bg-gradient-to-b from-background via-background-subtle to-background scroll-mt-16 border-t border-primary/[0.06] relative overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-indigo-50 border border-indigo-100/80 rounded-full text-indigo-700 font-semibold text-xs font-mono uppercase tracking-wider">
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-pulse" />
-            Conversational Compiler • Zero Form Fatigue
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16 lg:mb-20 space-y-3 sm:space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 bg-indigo-50 border border-indigo-100/80 rounded-full text-indigo-700 font-semibold text-[11px] sm:text-xs font-mono uppercase tracking-wider max-w-full">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-pulse shrink-0" />
+            <span className="truncate">Conversational Compiler • Zero Form Fatigue</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-ink font-serif tracking-tight leading-tight">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-ink font-serif tracking-tight leading-tight">
             From conversation to clarity
           </h2>
-          <p className="text-base sm:text-lg text-secondary font-sans leading-relaxed">
+          <p className="text-sm sm:text-base lg:text-lg text-secondary font-sans leading-relaxed">
             Your natural, spoken dialogue progressively compiles into an immutable, structured legal record in real time.
           </p>
         </div>
 
         {/* Interactive Dual-Panel Workbench */}
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-10 items-stretch mb-20">
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-stretch mb-12 sm:mb-20">
           {/* Panel 1: Conversational Source Input (Left) */}
-          <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-[0_15px_35px_-10px_rgba(15,20,25,0.07)] border border-stone-200/90 flex flex-col justify-between relative group">
+          <div className="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-[0_15px_35px_-10px_rgba(15,20,25,0.07)] border border-stone-200/90 flex flex-col justify-between relative group w-full min-w-0">
             <div>
               {/* Header Bar */}
-              <div className="flex items-center justify-between pb-4 mb-6 border-b border-stone-200/80">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-ink text-white flex items-center justify-center font-mono font-bold text-xs shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-2 pb-3.5 sm:pb-4 mb-4 sm:mb-6 border-b border-stone-200/80">
+                <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-ink text-white flex items-center justify-center font-mono font-bold text-xs shadow-sm shrink-0">
                     RS
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <div className="flex items-center gap-2">
-                      <p className="text-sm font-bold text-ink font-sans">Rahul Sharma</p>
-                      <span className="w-2 h-2 rounded-full bg-emerald-500" title="Session Active" />
+                      <p className="text-sm font-bold text-ink font-sans truncate">Rahul Sharma</p>
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" title="Session Active" />
                     </div>
-                    <p className="text-[11px] text-stone-500 font-mono">Audio & Text Intake • Turn #01</p>
+                    <p className="text-[10px] sm:text-[11px] text-stone-500 font-mono truncate">Audio & Text Intake • Turn #01</p>
                   </div>
                 </div>
-                <span className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-stone-100 border border-stone-200/80 text-stone-600 uppercase tracking-wide">
+                <span className="text-[10px] sm:text-[11px] font-mono px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-stone-100 border border-stone-200/80 text-stone-600 uppercase tracking-wide shrink-0">
                   Natural Language
                 </span>
               </div>
 
               {/* Message Body with Fixed Word Spacing & Entity Highlighting */}
-              <div className="p-5 rounded-xl bg-stone-50/80 border border-stone-200/80 mb-6">
-                <p className="text-stone-800 text-base sm:text-lg leading-relaxed font-serif italic">
+              <div className="p-3.5 sm:p-5 rounded-xl bg-stone-50/80 border border-stone-200/80 mb-4 sm:mb-6">
+                <p className="text-stone-800 text-sm sm:text-base lg:text-lg leading-relaxed font-serif italic break-words">
                   "
                   {conversationText.split(' ').map((word, idx) => {
                     const cleanWord = word.replace(/[.,]/g, '');
@@ -116,7 +116,7 @@ function ConversationToStructure() {
                         <span
                           className={`transition-all duration-300 ${
                             isHighlighted 
-                              ? 'bg-indigo-100/90 text-indigo-900 font-semibold px-1.5 py-0.5 rounded border border-indigo-200/90 shadow-2xs font-sans not-italic' 
+                              ? 'bg-indigo-100/90 text-indigo-900 font-semibold px-1 sm:px-1.5 py-0.5 rounded border border-indigo-200/90 shadow-2xs font-sans not-italic' 
                               : 'text-stone-800'
                           }`}
                         >
@@ -132,19 +132,19 @@ function ConversationToStructure() {
             </div>
 
             {/* Parser Status & Progress Meter */}
-            <div className="pt-4 border-t border-stone-200/80 space-y-3">
-              <div className="flex items-center justify-between text-xs font-mono">
-                <div className="flex items-center gap-2 text-indigo-700">
-                  <div className="flex gap-1">
+            <div className="pt-3.5 sm:pt-4 border-t border-stone-200/80 space-y-2.5 sm:space-y-3">
+              <div className="flex items-center justify-between text-[11px] sm:text-xs font-mono gap-2">
+                <div className="flex items-center gap-1.5 sm:gap-2 text-indigo-700 min-w-0">
+                  <div className="flex gap-1 shrink-0">
                     <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-bounce" />
                     <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-bounce" style={{ animationDelay: '0.15s' }} />
                     <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-bounce" style={{ animationDelay: '0.3s' }} />
                   </div>
-                  <span className="font-semibold tracking-wide">
+                  <span className="font-semibold tracking-wide truncate">
                     {activeStep < 4 ? 'Parsing entities & relations...' : 'Compilation verified & locked'}
                   </span>
                 </div>
-                <span className="text-stone-600 font-bold">
+                <span className="text-stone-600 font-bold shrink-0">
                   {Math.min(activeStep * 25, 100)}%
                 </span>
               </div>
@@ -158,19 +158,19 @@ function ConversationToStructure() {
               </div>
 
               {/* Pipeline Tag Strip */}
-              <div className="pt-2 flex items-center justify-between text-[11px] font-mono text-stone-500">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+              <div className="pt-1.5 flex flex-wrap items-center justify-between gap-x-2 gap-y-1 text-[10px] sm:text-[11px] font-mono text-stone-500">
+                <span className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0" />
                   Tokenized Stream
                 </span>
-                <span className="text-stone-300">•</span>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span className="text-stone-300 hidden sm:inline">•</span>
+                <span className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
                   Schema Validated
                 </span>
-                <span className="text-stone-300">•</span>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-600" />
+                <span className="text-stone-300 hidden sm:inline">•</span>
+                <span className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-600 shrink-0" />
                   Directive Bound
                 </span>
               </div>
@@ -178,52 +178,52 @@ function ConversationToStructure() {
           </div>
 
           {/* Panel 2: Structured Entity Output (Right) */}
-          <div className="bg-[#FAF9F5] rounded-2xl p-6 sm:p-8 shadow-[0_15px_35px_-10px_rgba(15,20,25,0.07)] border border-stone-200/90 flex flex-col justify-between">
+          <div className="bg-[#FAF9F5] rounded-2xl p-4 sm:p-6 lg:p-8 shadow-[0_15px_35px_-10px_rgba(15,20,25,0.07)] border border-stone-200/90 flex flex-col justify-between w-full min-w-0">
             <div>
               {/* Header Bar */}
-              <div className="flex items-center justify-between pb-4 mb-5 border-b border-stone-200/80">
-                <div className="flex items-center gap-2 font-mono text-xs text-stone-600">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                  <span className="font-semibold text-ink">lexora.schema_state</span>
+              <div className="flex flex-wrap items-center justify-between gap-2 pb-3.5 sm:pb-4 mb-4 sm:mb-5 border-b border-stone-200/80">
+                <div className="flex items-center gap-1.5 sm:gap-2 font-mono text-[11px] sm:text-xs text-stone-600 min-w-0">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                  <span className="font-semibold text-ink truncate">lexora.schema_state</span>
                   <span className="text-stone-400">/</span>
-                  <span>entity_register</span>
+                  <span className="truncate">entity_register</span>
                 </div>
-                <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-100/70 text-emerald-800 border border-emerald-200 font-semibold">
+                <span className="text-[10px] sm:text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-100/70 text-emerald-800 border border-emerald-200 font-semibold shrink-0">
                   {activeStep} of 4 Resolved
                 </span>
               </div>
 
               {/* 4 Structured Property Registers */}
-              <div className="space-y-3">
+              <div className="space-y-2.5 sm:space-y-3">
                 {extractedFields.map((field, index) => {
                   const isResolved = activeStep > index;
                   return (
                     <div
                       key={field.key}
-                      className={`p-3.5 sm:p-4 rounded-xl transition-all duration-300 border ${
+                      className={`p-3 sm:p-4 rounded-xl transition-all duration-300 border ${
                         isResolved
-                          ? 'bg-white shadow-sm border-stone-200/90 hover:border-indigo-300'
+                          ? 'bg-white shadow-2xs border-stone-200/90 hover:border-indigo-300'
                           : 'bg-white/40 border-dashed border-stone-300/70 opacity-40'
                       }`}
                     >
-                      <div className="flex items-center justify-between mb-1.5">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-stone-600 bg-stone-100 px-2 py-0.5 rounded border border-stone-200/70">
+                      <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2 mb-1.5">
+                        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                          <span className="text-[9px] sm:text-[10px] font-mono font-bold tracking-wider uppercase text-stone-600 bg-stone-100 px-1.5 sm:px-2 py-0.5 rounded border border-stone-200/70 shrink-0">
                             {field.key}
                           </span>
-                          <span className="text-xs font-sans text-stone-500 font-medium">
+                          <span className="text-[11px] sm:text-xs font-sans text-stone-500 font-medium truncate">
                             {field.label}
                           </span>
                         </div>
                         {isResolved ? (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-mono font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                          <span className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-mono font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 shrink-0">
                             <svg width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                             </svg>
                             Verified
                           </span>
                         ) : (
-                          <span className="text-[11px] font-mono text-stone-400">
+                          <span className="text-[10px] sm:text-[11px] font-mono text-stone-400 shrink-0">
                             Extracting...
                           </span>
                         )}
@@ -231,24 +231,24 @@ function ConversationToStructure() {
 
                       <div className="pl-0.5">
                         {Array.isArray(field.value) ? (
-                          <div className="flex flex-wrap gap-2 pt-0.5">
+                          <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-0.5">
                             {field.value.map((item, idx) => (
                               <span
                                 key={idx}
-                                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-stone-50 border border-stone-200/80 text-xs font-semibold text-ink font-sans"
+                                className="inline-flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-stone-50 border border-stone-200/80 text-[11px] sm:text-xs font-semibold text-ink font-sans break-words"
                               >
-                                <span className="w-1.5 h-1.5 rounded-full bg-indigo-600" />
+                                <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 shrink-0" />
                                 {item}
                               </span>
                             ))}
                           </div>
                         ) : (
-                          <div className="flex items-baseline justify-between">
-                            <span className="text-ink font-serif font-bold text-base">
+                          <div className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-1">
+                            <span className="text-ink font-serif font-bold text-sm sm:text-base break-words">
                               {field.value}
                             </span>
                             {field.relation && (
-                              <span className="text-xs font-sans text-stone-500 font-normal">
+                              <span className="text-[11px] sm:text-xs font-sans text-stone-500 font-normal shrink-0">
                                 Relation: <strong className="text-ink font-medium">{field.relation}</strong>
                               </span>
                             )}
@@ -262,9 +262,9 @@ function ConversationToStructure() {
             </div>
 
             {/* Bottom Footer Note */}
-            <div className="pt-4 border-t border-stone-200/80 flex items-center justify-between text-[11px] font-mono text-stone-500">
-              <span>STORAGE: IMMUTABLE DRAFT DOCK</span>
-              <span className="text-indigo-700 font-semibold">100% Deterministic</span>
+            <div className="pt-3.5 sm:pt-4 border-t border-stone-200/80 flex flex-wrap items-center justify-between gap-2 text-[10px] sm:text-[11px] font-mono text-stone-500">
+              <span className="truncate">STORAGE: IMMUTABLE DRAFT DOCK</span>
+              <span className="text-indigo-700 font-semibold shrink-0">100% Deterministic</span>
             </div>
           </div>
         </div>
