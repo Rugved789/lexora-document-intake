@@ -9,11 +9,12 @@
 [![Prisma](https://img.shields.io/badge/Prisma-5.14-teal.svg)](https://www.prisma.io/)
 [![Clerk](https://img.shields.io/badge/Auth-Clerk-6C47FF.svg)](https://clerk.com/)
 [![Groq LPU](https://img.shields.io/badge/LLM-Groq%20LPU-orange.svg)](https://groq.com/)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717.svg)](https://github.com/Rugved789/lexora-document-intake)
 
 ---
 
-🌐 **Live Application URL**: [https://lexora-app.vercel.app](https://lexora-app.vercel.app) *(Replace with your live deployment URL)*  
-📡 **Production API Endpoint**: [https://api.lexora.com](https://api.lexora.com) *(Replace with your live backend API URL)*
+🔗 **GitHub Repository**: [https://github.com/Rugved789/lexora-document-intake](https://github.com/Rugved789/lexora-document-intake)  
+📡 **Production API Endpoint**: `http://localhost:3000` *(Configurable via `.env`)*
 
 ---
 
@@ -27,7 +28,7 @@ Lexora resolves this tension through a strict engineering invariant:
 > 
 > - **Conversation History**: An unstructured log of dialogue between the user and assistant.
 > - **Structured State**: A deterministic, validated, versioned JSON schema representing confirmed legal facts.
-> - **Draft Documents**: Compiled strictly from the **Structured State**, never hallucinated by an LLM.
+> - **Draft Documents & PDFs**: Compiled strictly from the **Structured State**, never hallucinated by an LLM.
 
 ---
 
@@ -35,7 +36,7 @@ Lexora resolves this tension through a strict engineering invariant:
 
 ### Conversational Intelligence
 - 💬 **Natural Dialogue Intake**: Users express wishes naturally without needing to understand legal terminology.
-- ⚡ **Multi-Field Extraction**: Extracts multiple facts (name, address, children, executor designations) from a single user turn.
+- ⚡ **Multi-Field Extraction**: Extracts multiple facts (name, address, children, executor designations, gifts, residual wishes) from a single user turn.
 - 🔍 **Contradiction Detection**: Identifies conflicting declarations (e.g., claiming no children after earlier naming dependants) and requests explicit clarification before altering state.
 - ✏️ **Graceful Corrections**: Users can update earlier decisions (*"Actually, make Sarah my executor instead of David"*) without re-parsing chat logs.
 - 🛡️ **Zero-Assumption Policy**: Never invents or assumes missing data; incomplete fields trigger targeted conversational follow-ups.
@@ -46,10 +47,22 @@ Lexora resolves this tension through a strict engineering invariant:
 - 🔬 **Contradiction Audit Inspector**: Dual-pane audit tool demonstrating real-time contradiction detection and conflict diffing.
 - 🏛️ **Executive Directives Vault (Dashboard)**: Real-time directive search, live metrics overview, and an interactive **"Name Your Document Session"** modal with quick preset suggestions.
 - 🎛️ **3-Pane Real-Time Workbench**:
-  1. **Conversation Panel**: Responsive chat stream with turn indicators.
-  2. **Structured State Panel**: Live field completion progress, schema attributes, and clarification badges.
-  3. **Document Preview**: Instant legal draft compilation reflecting verified facts in real time.
-- ⏱️ **State History Inspector**: Full version control tracking every state mutation across conversation turns.
+  1. **Conversation Panel**: Responsive chat stream with turn indicators and quick action chips.
+  2. **Structured State Panel**: Live 7-section completion progress (`Personal Info`, `Scope`, `Descendants`, `Executor`, `Gifts`, `Wishes`, `Confirmation`).
+  3. **Document Preview & Download**: Fullscreen interactive PDF viewer and one-click download.
+- ⏱️ **State History & Version Control**: Full audit trail tracking incremental versions (`v1`, `v2`, `v3`...), diff timestamps, and clean human-readable state cards (no raw JSON code dumps).
+
+### Executive PDF Generation & Single Source of Truth
+- 📜 **Editorial Legal Document Template**: Vector-sharp, print-safe A4 PDF document generated server-side using PDFKit.
+- 🖋️ **Classic Legal Typography**: Built-in PostScript serif typography (`Times-Bold`, `Times-Roman`, `Times-Italic`) for formal legal weight, paired with restrained graphite uppercase labels (`Helvetica-Bold`).
+- 🏛️ **Institutional Letterhead**: Geometric Lexora monogram box, `LEXORA` wordmark, `LEGAL DIRECTIVES PLATFORM` sub-mark, bordered `INTAKE SPECIMEN DRAFT` badge, `PRIVILEGED & CONFIDENTIAL` sub-mark, and double hairline rule.
+- 📋 **Declarant Dossier Summary**: Shaded header block with vertical gold accent bar displaying principal identification, multi-line residence, and intake record date.
+- 🔢 **Numbered Sections (01–06)**: Distinct brass gold numerals (`01`–`06`), divider rules, two-column label/value alignments, and bulleted descendants lists.
+- 🎁 **Styled Asset Gifts Table**: Tabular layout with header row, alternating row shading, and designated item/beneficiary columns.
+- 💬 **Declarant Speech Blockquote**: Verbatim residual wishes styled in an indented card with a brass indicator bar and italic declarant quote.
+- ⚖️ **Formal Statutory Notice**: Prominent amber disclaimer box isolating non-binding demonstration notices.
+- 📄 **Dynamic Pagination & Running Footers**: Accurate `Page X of Y` footers, multi-page running headers (Page 2+), and zero orphan headers. Standard intakes render cleanly on **exactly 1 page**.
+- 🔄 **Unified Endpoint**: Both the in-app modal preview and the downloaded PDF stream the exact same binary from `GET /api/intakes/:id/document`.
 
 ---
 
@@ -198,7 +211,11 @@ npm run dev
 
 ## 🧪 Automated Testing
 
-Lexora includes test suites covering document generation, structured state validation, and deterministic extraction:
+Lexora includes 32 automated tests across 4 comprehensive test suites:
+- 🤖 **`mockLLM.test.js`**: LLM extraction, multi-field capture, executor/children extraction, and contradiction handling.
+- 📐 **`structuredState.test.js`**: Zod schema validation, delta merging, and correction overrides.
+- 📑 **`documentGenerator.test.js`**: Completion status calculation, fallback handling, and deterministic text formatting.
+- 📜 **`pdfGenerator.test.js`**: Vector PDF generation, empty state resilience, multi-page pagination, and asset tables.
 
 ```bash
 cd server
@@ -207,8 +224,10 @@ npm test
 
 To run individual test suites:
 ```bash
-node --test tests/documentGenerator.test.js
+node --test tests/mockLLM.test.js
 node --test tests/structuredState.test.js
+node --test tests/documentGenerator.test.js
+node --test tests/pdfGenerator.test.js
 ```
 
 ---

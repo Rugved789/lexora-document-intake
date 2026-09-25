@@ -58,15 +58,21 @@ This document outlines key technical, security, and architectural enhancements r
 
 ## 4. Document Compilation & Legal Export Engine
 
-### High-Fidelity PDF & DOCX Generation
-- Replace plain-text draft formatting with server-side PDF generation via `@react-pdf/renderer` or headless Puppeteer.
-- Incorporate:
-  - Professional legal document margins, running headers, and page numbering (*"Page X of Y"*).
-  - Formal signature and witness acknowledgment blocks.
-  - Cryptographic QR code and verification seal certifying document provenance against the Lexora state hash.
+### Completed: High-Fidelity Vector PDF Generation (PDFKit)
+- ✅ **Implemented & Live**: Replaced plain-text exports with a dedicated, server-side PDFKit generation engine.
+  - Classical PostScript legal serif typography (`Times-Bold`, `Times-Roman`, `Times-Italic`) and graphite metadata labels (`Helvetica-Bold`).
+  - Institutional letterhead, Lexora monogram box, and formal classification badges.
+  - Shaded 3-column declarant dossier card with vertical brass accent bar.
+  - Numbered sections (01–06), two-column grid alignments, and nested descendants lists.
+  - Asset gifts table with alternating row shading and bottom rule.
+  - Indented declarant speech blockquote for verbatim residual wishes.
+  - Statutory notice box and dynamic running headers/footers with accurate `Page X of Y` numbering.
+  - Single source of truth serving both the in-app fullscreen Preview and direct Download via `/api/intakes/:id/document`.
 
-### E-Signature Integration
-- Integrate with e-signature providers (DocuSign, Dropbox Sign) or electronic notary services to allow one-click execution of generated directives.
+### Next Enhancements: Cryptographic Proof & Advanced Formats
+- **Cryptographic State Hash & QR Verification**: Embed a cryptographic SHA-256 seal and scannable QR code on the PDF linking to an immutable on-chain or timestamped state verification record.
+- **DOCX / Word Export**: Support editable `.docx` exports using `docx` npm library for attorney markup and localized drafting.
+- **E-Signature & Digital Notary**: Integrate DocuSign or Dropbox Sign API for one-click digital signing and notary attestation.
 
 ---
 

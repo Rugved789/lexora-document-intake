@@ -228,20 +228,23 @@ npm run dev
 
 ## 9. Running Automated Test Suites
 
-The backend includes test suites covering schema validation, state merging, document generation, and MockLLM extraction.
+The backend includes 32 automated tests across 4 comprehensive test suites:
+- 🤖 **`mockLLM.test.js`**: LLM information extraction, multi-field capture, executor/children extraction, and contradiction handling.
+- 📐 **`structuredState.test.js`**: Zod schema validation, delta merging, and correction overrides.
+- 📑 **`documentGenerator.test.js`**: Completion status calculation, fallback handling, and deterministic text formatting.
+- 📜 **`pdfGenerator.test.js`**: Vector PDF generation, empty state resilience, multi-page pagination, and asset tables.
 
 ```bash
 cd server
 npm test
 ```
 
-To run a specific test suite:
+To run individual test suites:
 ```bash
-# Test Document Generator:
-node --test tests/documentGenerator.test.js
-
-# Test Structured State Validation:
+node --test tests/mockLLM.test.js
 node --test tests/structuredState.test.js
+node --test tests/documentGenerator.test.js
+node --test tests/pdfGenerator.test.js
 ```
 
 ---

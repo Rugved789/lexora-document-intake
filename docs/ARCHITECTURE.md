@@ -278,6 +278,20 @@ To guarantee 100% reliability across all target cloud environments (Render, Verc
 3. **Deterministic Pagination**: Precise A4 dimensions (595.28 x 841.89 pt) and a two-pass `bufferedPageRange` ensure page counts (`Page X of Y`), running headers, and legal disclaimers are calculated dynamically and placed cleanly.
 4. **Single Source of Truth**: Both the fullscreen in-app Preview and direct Download consume the exact same `application/pdf` binary stream emitted by `GET /api/intakes/:id/document`.
 
+### Executive Document Template & Styling Specifications
+The PDF generator adheres to an executive, editorial legal document styling system:
+- **Typography**: Dual-typeface legal hierarchy pairing PostScript serif (`Times-Bold`, `Times-Roman`, `Times-Italic`) for formal legal content with restrained sans-serif (`Helvetica-Bold`, `6.5pt`–`7pt`, `#64748B`) for metadata labels.
+- **Institutional Letterhead**: Deep navy square monogram with serif `L`, spaced `LEXORA` wordmark, `LEGAL DIRECTIVES PLATFORM` sub-mark, bordered `INTAKE SPECIMEN DRAFT` classification badge, `PRIVILEGED & CONFIDENTIAL` sub-mark, and double hairline rule.
+- **Declarant Dossier Card**: 3-column shaded block (`#F8FAFC`) with vertical brass gold indicator bar (`#B8860B`) accommodating natural multi-line address wrapping without string truncation.
+- **Numbered Sections (01–06)**: Distinct brass numerals (`01`–`06`) separated by vertical dividers and hairline rules extending to the right margin.
+- **Two-Column Grid Alignment**: Standardized two-column alignment across Personal Info (01), Territorial Scope (02), Descendants (03), and Fiduciary Appointment (04).
+- **Descendants List (03)**: Indented vertical list with brass bullet markers (`•`), bold names, and italic `— Primary Descendant` descriptors.
+- **Asset Gifts Table (05)**: Header row (`ITEM #`, `DESIGNATED BENEFICIARY`, `ALLOCATED ASSET / BEQUEST`), subtle background fill (`#F1F5F9`), and alternating row shading.
+- **Residual Directives (06)**: Indented parchment card (`#FAF9F6`) with vertical brass gold bar and `Times-Italic` quoted text representing declarant's verbatim words.
+- **Statutory Notice Box**: Amber disclaimer box (`#FFFDF7` fill, `#FDE68A` border, `#D97706` indicator bar) setting apart non-binding demonstration notices.
+- **Orphan Header Prevention**: Height budget checks (`neededHeight = 50–65pt`) ensure section headers and their contents stay together across page breaks.
+- **Running Headers & Footers**: Running header on Page 2+ (`● LEXORA Personal Wishes Declaration • Specimen Draft CONFIDENTIAL`) and running footers on every page with right-aligned `Page X of Y`. Standard single-declarant documents render cleanly on **exactly 1 page**.
+
 ---
 
 ## 9. Related Documentation

@@ -129,6 +129,30 @@ The model extracts all three facets simultaneously:
 ```
 The UI immediately reflects all updated fields in the right-hand panel in real time.
 
+### 4. Specific Asset Gifts & Bequest Arrays
+Users frequently distribute multiple distinct assets in a single conversational sentence:
+> *"I want to give my Toyota Camry to Aarav and my gold necklace to Ananya."*
+
+The model decomposes compound declarations into structured gift objects:
+```json
+{
+  "stateUpdates": {
+    "has_specific_gifts": true,
+    "specific_gifts": [
+      { "recipient": "Aarav", "item": "Toyota Camry" },
+      { "recipient": "Ananya", "item": "gold necklace" }
+    ]
+  }
+}
+```
+Array replacement is enforced in the backend state merger: newly declared arrays completely overwrite previous partial states to prevent item duplication across conversational iterations.
+
+### 5. Verbatim Declarant Directives vs Structured Form Fields
+In legal documents, the declarant's subjective voice carries evidentiary weight. When a user provides custom instructions:
+> *"My personal belongings should be distributed according to these wishes, and my family should be informed about the document."*
+
+The model preserves this exact sentence in `additional_wishes` without editorial embellishment or paraphrasing. In the compiled PDF, this text is rendered in a dedicated blockquote card with `Times-Italic` typesetting to visually distinguish the declarant's original words from system-structured labels.
+
 ---
 
 ## 5. Edge Cases & Solutions
