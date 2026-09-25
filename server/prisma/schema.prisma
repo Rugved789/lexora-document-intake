@@ -1,0 +1,57 @@
+// Prisma schema for Document Intake Assistant
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Main intake session - one per user conversation
+model IntakeSession {
+  id        String   @id @default(cuid())
+  clerkUserId String
+  title     String   @default("New Intake")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  messages        ConversationMessage[]
+  structuredStates StructuredState[]
+
+  @@index([clerkUserId])
+  @@map("intake_sessions")
+}
+
+// Conversation history - separate from structured state
+model ConversationMessage {
+  id              String   @id @default(cuid())
+  intakeSessionId String
+  role            String   // "user" or "assistant"
+  content         String   @db.Text
+  createdAt       DateTime @default(now())
+
+  // Relationships
+  intakeSession IntakeSession @relation(fields: [intakeSessionId], references: [id], onDelete: Cascade)
+
+  @@index([intakeSessionId])
+  @@map("conversation_messages")
+}
+
+// Structured state - the source of truth
+model StructuredState {
+  id              String   @id @default(cuid())
+  intakeSessionId String
+  stateJson       String   @db.Text  // JSON representation of structured data
+  version         Int      @default(1)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relationships
+  intakeSession IntakeSession @relation(fields: [intakeSessionId], references: [id], onDelete: Cascade)
+
+  @@index([intakeSessionId])
+  @@map("structured_states")
+}
