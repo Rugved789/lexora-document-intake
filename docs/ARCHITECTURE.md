@@ -2,7 +2,7 @@
 
 ## 1. Executive Summary
 
-**Lexora** is an AI-assisted conversational document intake platform designed for high-assurance legal directives, personal wills, and estate planning. Traditional legal intake workflows force users into rigid, intimidating web forms where edge cases, nuance, and natural explanations are lost. Lexora replaces static forms with a natural dialogue interface while maintaining a **deterministic, structured state** as the single source of truth.
+**Lexora** is an AI-assisted conversational document intake workbench designed for high-assurance legal directives, personal declarations, and estate planning. Traditional legal intake workflows force users into rigid, intimidating web forms where nuance, natural context, and edge cases are lost. Lexora replaces static forms with a fluid, guided dialogue interface while maintaining a **deterministic, structured state** as the single source of truth.
 
 ---
 
@@ -25,23 +25,23 @@
 │  }                                                       │
 └────────────────────────────┬─────────────────────────────┘
                              │
-                             ▼ Deterministic Templating
+                             ▼ Deterministic PDF Engine
 ┌──────────────────────────────────────────────────────────┐
-│               Formal Legal Directive Draft               │
+│          Executive Vector Legal Directive (PDF)          │
 │  "I, Eleanor Vance, residing at Boston, MA, declare..."  │
 └──────────────────────────────────────────────────────────┘
 ```
 
 ### Principle A: Conversation History ≠ Structured State
-This is the foundational invariant of the system:
+This is the foundational invariant of the Lexora system:
 - **Conversation History** records chronological messages exchanged between the user and the assistant.
-- **Structured State** is a validated, typed, versioned schema representing confirmed legal facts.
+- **Structured State** is a validated, typed, versioned JSON schema representing confirmed legal facts.
 
 **Why this separation is essential:**
-1. **Painless Corrections**: If a user states *"Actually, my brother Marcus will be my executor instead of Robert"*, the engine updates `state.executor` directly without needing to re-parse or redact prior chat turns.
+1. **Frictionless Corrections**: If a user states *"Actually, my brother Marcus will be my executor instead of Robert"*, the engine updates `state.executor` directly without needing to redact or re-parse prior chat history.
 2. **Deterministic Contradiction Detection**: Conflicting statements are detected by comparing incoming declarations against the current structured state, rather than searching unstructured message logs.
-3. **Verifiable Document Compilation**: Final legal documents are generated exclusively from verified structured state keys, eliminating LLM hallucination in final legal drafts.
-4. **Immutable State Versioning**: Every state mutation is tagged with an incremental version counter for legal auditability.
+3. **Verifiable Document Compilation**: Final legal documents and PDFs are generated exclusively from verified structured state keys, eliminating LLM hallucination in final drafts.
+4. **Immutable State Versioning**: Every state mutation is tagged with an incremental version counter (`v1`, `v2`, `v3`...) for auditability.
 
 ### Principle B: Zero-Assumption Policy
 The extraction engine operates under strict zero-assumption constraints:
@@ -73,7 +73,7 @@ The backend state service merges these deltas through schema validation guards, 
                     │   React 18 + Vite + Tailwind│
                     │   Clerk React SDK (Auth)  │
                     └─────────────┬─────────────┘
-                                  │ HTTPS / REST
+                                  │ HTTPS / REST (Axios Interceptors)
                                   ▼
                     ┌───────────────────────────┐
                     │   API Gateway (Express)   │
@@ -85,28 +85,30 @@ The backend state service merges these deltas through schema validation guards, 
               ▼                                       ▼
 ┌───────────────────────────┐           ┌───────────────────────────┐
 │     PostgreSQL Database   │           │   LLM Inference Engine    │
-│  Prisma ORM Client        │           │  Groq API (LPU Hardware)  │
-│  Sessions, Messages, State│           │  Model: gpt-oss-120b      │
-└───────────────────────────┘           │  (Fallback: MockLLM)      │
-                                        └───────────────────────────┘
+│  Neon Cloud / Local       │           │  Groq API (LPU Hardware)  │
+│  Prisma ORM 5.14 Client   │           │  Model: gpt-oss-120b      │
+│  Pre-warmed Pooler        │           │  (Test Harness: MockLLM)  │
+└───────────────────────────┘           └───────────────────────────┘
 ```
 
-### Frontend (`/client`)
+### Frontend Architecture (`/client`)
 - **Framework**: React 18 with Vite 5.
-- **Design System**: Custom design tokens adhering to the *"Ink + Paper + Digital Precision"* aesthetic:
+- **Design System**: Custom tokens adhering to the *"Ink + Paper + Digital Precision"* aesthetic:
   - Deep Ink (`#0F1419`), Warm Ivory Paper (`#FDFCFA`), Warm Gold/Brass (`#B8860B`), Restrained Indigo (`#4C51BF`).
   - Typography: `Plus Jakarta Sans` (interface), `Lora` (editorial/documents), `JetBrains Mono` (technical metrics).
 - **Core Views**:
   - **Landing Page**: 3D floating document hero with GPU levitation, interactive contradiction audit inspector, dual-panel conversation-to-structure workbench, process timeline, and legal document preview.
-  - **Dashboard**: Executive Document Directives Vault, real-time directive search, live metrics counter, session creation dialog with preset suggestions, and chronological cards with `DIR-01` tags.
+  - **Dashboard (Executive Vault)**: Real-time directive search, live metrics counter, session creation dialog with preset suggestions, and chronological cards with `DIR-01` tags.
   - **Intake Session**: 3-pane responsive workbench combining live chat (`ConversationPanel`), real-time field progress (`StructuredStatePanel`), interactive legal draft preview (`DocumentPreview`), and version history inspector (`StateHistoryViewer`).
+- **Resilience**: Axios response interceptor automatically handles transient cold starts with exponential backoff.
 - **Authentication**: Clerk React SDK (`@clerk/clerk-react`) with protected routes and auto-injected JWT bearer tokens.
 
-### Backend (`/server`)
+### Backend Architecture (`/server`)
 - **Runtime**: Node.js (ES Modules: `"type": "module"`).
-- **Framework**: Express 4.19 with CORS, JSON body parser, and centralized error handling middleware.
+- **Framework**: Express 4.19 with CORS supporting localhost and `.vercel.app` domains, JSON body parser, and centralized error handling.
+- **Startup Pre-Warming**: Pre-warms PostgreSQL connection via `prisma.$connect()` upon server boot.
 - **Validation**: Zod 3.23 for strict runtime validation across API requests and LLM extraction payloads.
-- **Database**: PostgreSQL 14+ managed via Prisma ORM (`@prisma/client` 5.14).
+- **Database**: PostgreSQL 14+ (Neon Cloud or local) managed via Prisma ORM (`@prisma/client` 5.14).
 - **Authentication**: Clerk Node SDK (`@clerk/clerk-sdk-node`), validating JWTs against `CLERK_SECRET_KEY` and extracting `req.userId`.
 
 ---
@@ -141,7 +143,7 @@ server/src/services/llm/
 
 ### 2. `MockLLMProvider` (Test & Offline Harness)
 - Purely deterministic, rule-based extraction engine.
-- Extracts names, addresses, children arrays, and executor designations using regex patterns.
+- Extracts names, addresses, children arrays, specific gifts, negative declarations, and executor designations using regex patterns.
 - Runs without internet access or API credentials.
 - Powers automated unit test suites in `server/tests/`.
 
@@ -217,7 +219,7 @@ model StructuredState {
 [LLM extracts stateUpdates, checks contradictions, returns JSON]
            │
            ▼
-[Zod Schema Validation & State Merge]
+[Zod Schema Validation & State Merge (mergeStateUpdates)]
            │
            ▼
 [Prisma: Save user message, assistant response, & increment StructuredState version]
@@ -231,12 +233,21 @@ model StructuredState {
 
 ---
 
-## 7. Security Architecture
+## 7. REST API Endpoints
 
-1. **Zero Trust Client Identity**: The server never trusts client-supplied user identifiers. The `userId` is extracted strictly from verified Clerk cryptographic JWT claims (`sessionClaims.sub`).
-2. **Session Ownership Enforcement**: Every database query verifies that `intakeSession.clerkUserId === req.userId`. Users cannot access or modify directives belonging to other accounts.
-3. **Environment Isolation**: API secrets (`CLERK_SECRET_KEY`, `GROQ_API_KEY`, `DATABASE_URL`) are isolated to backend environment variables and never exposed to the frontend bundle.
-4. **Input Sanitization & Schema Guards**: All user inputs are parsed via Zod before hitting service layers or database queries.
+All application routes are prefixed with `/api` and require a valid Bearer JWT:
+
+| Method | Endpoint | Description | Auth Required |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/health` | Server health check and timestamp | No |
+| `POST` | `/api/intakes` | Create a new intake session with initial empty state | Yes |
+| `GET` | `/api/intakes` | List all intake sessions owned by the authenticated user | Yes |
+| `GET` | `/api/intakes/:id` | Fetch full intake session details, messages, and state | Yes |
+| `DELETE` | `/api/intakes/:id` | Delete an intake session and cascading records | Yes |
+| `POST` | `/api/intakes/:id/messages` | Send user message, trigger extraction, update state | Yes |
+| `PATCH` | `/api/intakes/:id/state` | Manually update specific structured state fields | Yes |
+| `GET` | `/api/intakes/:id/document` | Stream compiled PDF binary (`?download=true` / `?format=json`) | Yes |
+| `GET` | `/api/intakes/:id/history` | Retrieve version history audits for structured state | Yes |
 
 ---
 
@@ -294,10 +305,18 @@ The PDF generator adheres to an executive, editorial legal document styling syst
 
 ---
 
-## 9. Related Documentation
+## 9. Security Architecture
+
+1. **Zero-Trust Client Identity**: The server never trusts client-supplied user identifiers. The `userId` is extracted strictly from verified Clerk cryptographic JWT claims (`sessionClaims.sub`).
+2. **Session Ownership Enforcement**: Every database query verifies that `intakeSession.clerkUserId === req.userId`. Users cannot access or modify directives belonging to other accounts.
+3. **Environment Isolation**: API secrets (`CLERK_SECRET_KEY`, `GROQ_API_KEY`, `DATABASE_URL`) are isolated to backend environment variables and never exposed to the frontend bundle.
+4. **Input Sanitization & Schema Guards**: All user inputs are parsed via Zod before hitting service layers or database queries.
+
+---
+
+## 10. Related Documentation
 
 - [Setup & Running Guide](./SETUP_AND_RUNNING.md)
-- [AI Engineering & Prompt Log](./AI_LOG.md)
-- [Production Improvements & Roadmap](./PRODUCTION_IMPROVEMENTS.md)
-- [Documentation Index](./README.md)
-
+- [AI Engineering & Development Log](./AI_LOG.md)
+- [Production Readiness Roadmap](./PRODUCTION_IMPROVEMENTS.md)
+- [Documentation Hub](./README.md)

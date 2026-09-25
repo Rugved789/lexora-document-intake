@@ -2,9 +2,7 @@ import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
-/**
- * Create axios instance with default config
- */
+/**Create axios instance with default config**/
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -12,9 +10,7 @@ const apiClient = axios.create({
   }
 });
 
-/**
- * Set the authentication token for API requests
- */
+/**Set the authentication token for API requests**/
 export function setAuthToken(token) {
   if (token) {
     apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -23,9 +19,7 @@ export function setAuthToken(token) {
   }
 }
 
-/**
- * Response interceptor to handle transient cold-starts and retries
- */
+/**Response interceptor to handle transient cold-starts and retries**/
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -45,9 +39,7 @@ apiClient.interceptors.response.use(
   }
 );
 
-/**
- * API Service
- */
+/**API Service*/
 export const api = {
   // Intake sessions
   async createIntake(title) {
