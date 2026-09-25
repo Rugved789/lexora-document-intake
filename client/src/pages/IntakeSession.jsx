@@ -11,7 +11,7 @@ function IntakeSession() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { getToken } = useAuth();
-  
+
   const [intake, setIntake] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -57,7 +57,7 @@ function IntakeSession() {
         token = await getToken();
       }
       setAuthToken(token);
-      
+
       const data = await api.getIntake(id);
       setIntake(data);
       setCurrentVersion(data.version || 1);
@@ -90,16 +90,16 @@ function IntakeSession() {
     try {
       const token = await getToken();
       setAuthToken(token);
-      
+
       const response = await api.sendMessage(id, content);
-      
+
       // Track fields needing clarification
       if (response.clarificationRequired && response.fieldsNeedingClarification) {
         setFieldsNeedingClarification(response.fieldsNeedingClarification);
       } else {
         setFieldsNeedingClarification([]);
       }
-      
+
       // Invalidate cached PDF because structured state changed
       if (pdfUrl) {
         URL.revokeObjectURL(pdfUrl);
@@ -115,7 +115,7 @@ function IntakeSession() {
         document: response.document,
         completion: response.completion
       }));
-      
+
       // Update version if returned
       if (response.version) {
         setCurrentVersion(response.version);
@@ -225,7 +225,7 @@ function IntakeSession() {
         <div className="bg-red-50 border-l-4 border-red-500 text-red-800 px-6 py-4 rounded-r-lg shadow-md">
           <div className="flex items-center gap-3">
             <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+              <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
             <span className="font-semibold">Intake session not found</span>
           </div>
@@ -242,19 +242,19 @@ function IntakeSession() {
           <div className="flex flex-wrap gap-3 justify-between items-center py-3.5">
             {/* Left: Back & Document Metadata */}
             <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-              <button 
+              <button
                 onClick={handleBackToDashboard}
                 className="flex items-center gap-1.5 text-secondary hover:text-primary transition-colors px-2.5 py-1.5 rounded-lg hover:bg-background-subtle text-sm font-medium"
                 title="Back to dashboard"
               >
                 <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M15 19l-7-7 7-7"/>
+                  <path d="M15 19l-7-7 7-7" />
                 </svg>
                 <span>Back</span>
               </button>
-              
+
               <div className="h-6 w-px bg-primary/10"></div>
-              
+
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
                   <h1 className="text-base sm:text-lg font-bold text-primary font-serif truncate">
@@ -279,8 +279,8 @@ function IntakeSession() {
                 title="Preview real PDF document"
               >
                 <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                  <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                  <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                 </svg>
                 <span>Preview</span>
               </button>
@@ -293,7 +293,7 @@ function IntakeSession() {
                 title="Download real PDF document"
               >
                 <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                  <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
                 <span>{downloading ? 'Downloading...' : 'Download PDF'}</span>
               </button>
@@ -301,10 +301,10 @@ function IntakeSession() {
               <div className="h-6 w-px bg-primary/10 hidden sm:block"></div>
 
               {/* Version History Modal Trigger */}
-              <StateHistoryViewer 
-                intakeId={id} 
-                currentVersion={currentVersion} 
-                onVersionChange={setCurrentVersion} 
+              <StateHistoryViewer
+                intakeId={id}
+                currentVersion={currentVersion}
+                onVersionChange={setCurrentVersion}
               />
 
               {/* Clerk User Button */}
@@ -320,7 +320,7 @@ function IntakeSession() {
           <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
             <div className="flex items-center gap-3">
               <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" className="text-red-600 flex-shrink-0">
-                <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
               <span className="text-red-800 text-sm font-medium">{error}</span>
             </div>
@@ -332,7 +332,7 @@ function IntakeSession() {
       <main className="max-w-[1600px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 items-start">
         {/* Left: Conversation (2/3 width) */}
         <section className="lg:col-span-2 h-full" aria-label="Conversation with Wenup">
-          <ConversationPanel 
+          <ConversationPanel
             messages={intake.messages}
             onSendMessage={handleSendMessage}
             sending={sending}
@@ -341,7 +341,7 @@ function IntakeSession() {
 
         {/* Right: Structured Information (1/3 width) */}
         <aside className="lg:col-span-1" aria-label="Structured Intake Information">
-          <StructuredStatePanel 
+          <StructuredStatePanel
             state={intake.state}
             completion={intake.completion}
             needsClarification={fieldsNeedingClarification}
@@ -350,7 +350,7 @@ function IntakeSession() {
       </main>
 
       {/* Professional Fullscreen PDF Document Preview Modal */}
-      <DocumentPreview 
+      <DocumentPreview
         isOpen={isPreviewOpen}
         onClose={() => setIsPreviewOpen(false)}
         pdfUrl={pdfUrl}
