@@ -15,7 +15,7 @@ Reliable, AI-assisted document intake that transforms natural dialogue into veri
 [![Groq](https://img.shields.io/badge/LLM-Groq%20LPU-F55036)](https://groq.com/)
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000?logo=vercel&logoColor=white)](https://lexora-document-intake-client.vercel.app/)
 
-[Live Demo](https://lexora-document-intake-client.vercel.app/) · [Report Bug](../../issues) · [Request Feature](../../issues)
+[Live Demo](https://lexora-document-intake-client.vercel.app/)
 
 </div>
 
