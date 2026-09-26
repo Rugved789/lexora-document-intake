@@ -15,16 +15,11 @@ Reliable, AI-assisted document intake that transforms natural dialogue into veri
 [![Groq](https://img.shields.io/badge/LLM-Groq%20LPU-F55036)](https://groq.com/)
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000?logo=vercel&logoColor=white)](https://lexora-document-intake-client.vercel.app/)
 
-<br>
-
 <p align="center">
   <a href="https://lexora-document-intake-client.vercel.app/">
-    <H2>🚀 Try Lexora Live Demo →</H2>
+    <strong>Live Demo →</strong>
   </a>
 </p>
-
-<br>
-
 
 </div>
 
