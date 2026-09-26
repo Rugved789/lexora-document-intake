@@ -17,7 +17,7 @@ Reliable, AI-assisted document intake that transforms natural dialogue into veri
 
 <p align="center">
   <a href="https://lexora-document-intake-client.vercel.app/">
-    <img src="https://img.shields.io/badge/🚀%20TRY%20LEXORA%20LIVE%20DEMO-Click%20Here-6C47FF?style=for-the-badge&logo=vercel&logoColor=white" alt="Try Lexora Live Demo"/>
+    <img src="https://img.shields.io/badge/🚀%20Try%20Lexora%20Live%20Demo-→-6C47FF?style=flat-square&labelColor=242424" alt="Try Lexora Live Demo">
   </a>
 </p>
 
